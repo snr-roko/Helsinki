@@ -1,7 +1,13 @@
 import {useState} from 'react'
 
 const Statistics = ({statistics}) => {
-  if(statistics.total == 0) return (<h5>No FeedBack Given</h5>)
+  if(statistics.total == 0) {
+    return (
+    <div>
+      <h3>Statistics</h3>  
+      <h5>No FeedBack Given</h5>
+    </div>)
+  }
 
   return (
   <div>

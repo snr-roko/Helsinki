@@ -1,9 +1,18 @@
 const Course = ({course}) => {
+  const exercises = course.parts.map((part) => part.exercises)
   return (
     <div>
       <Header header = {course.name} />
       <Content parts = {course.parts} />
+      <Total exercises = {exercises} />
     </div>
+  )
+}
+
+const Total = ({exercises}) => {
+  const total = exercises.reduce((total, current) => total += current)
+  return (
+    <h4>total of {total} exercises</h4>
   )
 }
 
@@ -17,15 +26,15 @@ const Part = ({part, exercise}) => {
   )
 }
 
+
+
 const Content = ({parts}) => {
-  const total = parts[0].exercises + parts[1].exercises + parts[2].exercises + parts[3].exercises
   return (
     <div>
-      <Part part = {parts[0].name} exercise = {parts[0].exercises}/>
-      <Part part = {parts[1].name} exercise = {parts[1].exercises}/>
-      <Part part = {parts[2].name} exercise = {parts[2].exercises}/>
-      <Part part = {parts[3].name} exercise = {parts[3].exercises}/>
-      <h4>total of {total} exercises</h4>
+      <Part part = {parts[0].name} exercise = {parts[0].exercises} />
+      <Part part = {parts[1].name} exercise = {parts[1].exercises} />
+      <Part part = {parts[2].name} exercise = {parts[2].exercises} />
+      <Part part = {parts[3].name} exercise = {parts[3].exercises} />
     </div>
   )
 }

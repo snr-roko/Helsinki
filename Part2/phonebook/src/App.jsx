@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import Persons from './components/Persons'
+import ContactList from './components/ContactList'
 import PersonForm from './components/PersonForm'
 import Filtered from './components/Filtered'
 import servicePerson from './services/personServer'
@@ -51,6 +51,17 @@ const App = () => {
     }
   }
 
+  const handleDelete = (id, name) => {
+    if (window.confirm(`Delete ${name}`)) {
+      servicePerson
+      .deleteData(id)
+      .then(response => {
+      const newPersons = persons.filter(person => person.id !== response.id)
+      setPersons(newPersons)
+    })
+    }    
+  }
+
   const personToshow = !searchString 
     ? persons 
     : persons.filter(person => {
@@ -74,8 +85,14 @@ const App = () => {
         />
   
         <h3>Numbers</h3>
-  
-        <Persons contactList = {personToshow} />
+
+        <div>
+          {personToshow.map(
+            person => 
+              <ContactList key={person.id} name={person.name} number={person.number} handleDelete={() => handleDelete(person.id, person.name)} />
+          )}
+        </div>
+
       </div>
     )
   }

@@ -11,4 +11,9 @@ const addData = (newData) => {
   return allData.then(response => response.data)
 }
 
-export default {getData, addData}
+const deleteData = (id) => {
+  const deletedData = axios.delete(`${url}/${id}`)
+  return deletedData.then(response => response.data)
+}
+
+export default {getData, addData, deleteData}

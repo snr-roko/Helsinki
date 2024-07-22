@@ -3,12 +3,14 @@ import ContactList from './components/ContactList'
 import PersonForm from './components/PersonForm'
 import Filtered from './components/Filtered'
 import servicePerson from './services/personServer'
+import Notification from './components/Notification'
 
 const App = () => {
   const [persons, setPersons] = useState([])
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [searchString, setSearchString] = useState('')
+  const [message, setMessage] = useState('')
 
   useEffect(
     () => {
@@ -44,24 +46,28 @@ const App = () => {
           .updateData(personToUpdate.id, newPerson)
           .then(response => {
             setPersons(persons.map(person => person.id === personToUpdate.id ? {...person, number: response.number} : person))
-            setNewName('')
-            setNewNumber('')
+            setMessage(`Number Added for ${response.name}`)
+            setTimeout(() => {
+              setMessage('')
+            }, 4000)
           })
         } 
         } else {
           alert(`${newPerson.name} is already in the phonebook with the same number.`)
-          setNewName('')
-          setNewNumber('')
       }
     } else {
       servicePerson
       .addData(newPerson)
       .then(response => {
         setPersons([...persons, response])
+        setMessage(`Added ${response.name}`)
+        setTimeout(() => {
+          setMessage('')
+        }, 4000)
       })
-      setNewName('')
-      setNewNumber('')
     }
+    setNewName('')
+    setNewNumber('')
   }
 
   const handleDelete = (id, name) => {
@@ -88,7 +94,9 @@ const App = () => {
     return (
       <div>
         <h2>Phonebook</h2>
-  
+
+        <Notification message={message} />
+
         <Filtered searchString={searchString} handleSearchString={handleSearchString}  />
   
         <h3>Add a new</h3>

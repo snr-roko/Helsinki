@@ -54,6 +54,9 @@ const App = () => {
           })
           .catch(error => {
             setErrorMessage(`Information of ${personToUpdate.name} has already been removed from the server`)
+            setTimeout(() => {
+              setErrorMessage('')
+            }, 4000)
             setPersons(persons.filter(person => person.id !== personToUpdate.id))
           })
         } 

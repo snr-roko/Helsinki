@@ -10,7 +10,8 @@ const App = () => {
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [searchString, setSearchString] = useState('')
-  const [message, setMessage] = useState('')
+  const [completedMessage, setCompletedMessage] = useState('')
+  const [errorMessage, setErrorMessage] = useState('')
 
   useEffect(
     () => {
@@ -46,10 +47,14 @@ const App = () => {
           .updateData(personToUpdate.id, newPerson)
           .then(response => {
             setPersons(persons.map(person => person.id === personToUpdate.id ? {...person, number: response.number} : person))
-            setMessage(`Number Added for ${response.name}`)
+            setCompletedMessage(`Number Added for ${response.name}`)
             setTimeout(() => {
-              setMessage('')
+              setCompletedMessage('')
             }, 4000)
+          })
+          .catch(error => {
+            setErrorMessage(`Information of ${personToUpdate.name} has already been removed from the server`)
+            setPersons(persons.filter(person => person.id !== personToUpdate.id))
           })
         } 
         } else {
@@ -60,9 +65,9 @@ const App = () => {
       .addData(newPerson)
       .then(response => {
         setPersons([...persons, response])
-        setMessage(`Added ${response.name}`)
+        setCompletedMessage(`Added ${response.name}`)
         setTimeout(() => {
-          setMessage('')
+          setCompletedMessage('')
         }, 4000)
       })
     }
@@ -95,7 +100,7 @@ const App = () => {
       <div>
         <h2>Phonebook</h2>
 
-        <Notification message={message} />
+        <Notification completedMessage={completedMessage} errorMessage={errorMessage} />
 
         <Filtered searchString={searchString} handleSearchString={handleSearchString}  />
   

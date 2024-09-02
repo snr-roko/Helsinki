@@ -20,3 +20,4 @@ sequenceDiagram
     server ->> browser: JavaScript file sent to the browser
     browser ->> server: HTTP GET request for Data
     server ->> browser: data.json file sent to the browser
+    ```

@@ -1,15 +1,38 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
+import countriesService from './services/countriesService'
+import Country from "./components/country"
 
 const App = () => {
 const [searchString, setSearchString] = useState('')
 const [countries, setCountries] = useState(null)
+const [countriesSearch, setCountriesSearch] = useState([])
 
+useEffect(() => {
+  countriesService
+    .getAll()
+    .then(response => {
+      setCountries(response)
+    })
+}, [])
 
-
+const handleChange = (event) => {
+  const search = event.target.value
+  setSearchString(search)
+  const filtered_countries = countries.filter(country => country.toLowerCase().includes(search.toLowerCase()))
+  setCountriesSearch(filtered_countries)
+}
 
   return (
     <div>
-      Find Countries <input value={searchString} onChange={(event) => setSearchString(event.target.value)}/>
+      <div>Find Countries <input value={searchString} onChange={handleChange}/></div>
+      <div>
+        {countriesSearch.length > 10
+          ? "Too many matches, specify another filter"
+          : countriesSearch.length <= 10 && countriesSearch.length > 1
+            ? countriesSearch.map(country => <p key={country}>{country}</p>)
+            : <Country /> 
+        }
+      </div>
     </div>
   )
 }

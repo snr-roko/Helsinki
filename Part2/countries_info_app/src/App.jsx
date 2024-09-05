@@ -13,6 +13,7 @@ useEffect(() => {
     .then(response => {
       setCountries(response)
     })
+    .catch(error => console.error("Data Fetching Failed, ", error))
 }, [])
 
 const handleChange = (event) => {
@@ -30,7 +31,9 @@ const handleChange = (event) => {
           ? "Too many matches, specify another filter"
           : countriesSearch.length <= 10 && countriesSearch.length > 1
             ? countriesSearch.map(country => <p key={country}>{country}</p>)
-            : <Country /> 
+            : countriesSearch.length == 0
+              ? null
+              : <Country name={countriesSearch[0]}/> 
         }
       </div>
     </div>

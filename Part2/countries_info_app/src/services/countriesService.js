@@ -11,4 +11,10 @@ const getAll = () => {
             })
 }
 
-export default {getAll}
+const getOne = (country) => {
+    return axios
+        .get(`${baseUrl}/api/name/${country}`)
+        .then(response => response.data)
+}
+
+export default {getAll, getOne}

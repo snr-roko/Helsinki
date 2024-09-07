@@ -1,13 +1,15 @@
 import countriesService from "../services/countriesService"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 
 const Country = ({name}) => {
 
     const [country_info, setCountry_info] = useState(null)    
-    countriesService
-        .getOne(name)
-        .then(response => setCountry_info(response))
-        .catch(error => console.error(`${name} information run into an issue`))
+    useEffect(() => {
+        countriesService
+            .getOne(name)
+            .then(response => setCountry_info(response))
+            .catch(error => console.error(`${name} information run into an issue`))
+    }, [name])
 
     if(!country_info) return "Loading..."    
     return (

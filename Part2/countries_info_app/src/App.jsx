@@ -23,6 +23,11 @@ const handleChange = (event) => {
   setCountriesSearch(filtered_countries)
 }
 
+const handleClick = (country) => {
+  const filtered_countries = countriesSearch.filter(a_country => a_country === country)
+  setCountriesSearch(filtered_countries)
+}
+
   return (
     <div>
       <div>Find Countries <input value={searchString} onChange={handleChange}/></div>
@@ -30,7 +35,9 @@ const handleChange = (event) => {
         {countriesSearch.length > 10
           ? "Too many matches, specify another filter"
           : countriesSearch.length <= 10 && countriesSearch.length > 1
-            ? countriesSearch.map(country => <p key={country}>{country}</p>)
+            ? countriesSearch.map(country => (<p key={country}>{country} <button onClick={() => handleClick(country)}>
+              show
+              </button> </p>))
             : countriesSearch.length == 0
               ? null
               : <Country name={countriesSearch[0]}/> 
